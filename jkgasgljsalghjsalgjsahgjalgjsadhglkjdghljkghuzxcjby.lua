@@ -1330,13 +1330,20 @@ local executor_used = tostring(identifyexecutor())
             Default = false,
             Callback = function(value)
                 getgenv().AutoShotEnabled = value
-                
+        
                 while getgenv().AutoShotEnabled do
-                    autoShot()
-                    wait(0.1)
+                    local screenGui = game:GetService("CoreGui"):FindFirstChild("HiddenUI")
+                    if screenGui then
+                        local child = screenGui:FindFirstChildOfClass("ScreenGui"):GetChildren()[2]
+                        if child and not child.Visible then
+                            pcall(autoShot)
+                        end
+                    end
+                    task.wait(0.1)
                 end
             end
         })
+        
         
 
 
