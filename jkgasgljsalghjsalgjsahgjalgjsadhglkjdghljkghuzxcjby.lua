@@ -109,13 +109,12 @@ local function setWalkSpeed()
     end
 end
 
--- Function to reset to default walk speed by removing BodyVelocity
 local function resetWalkSpeed()
     local hrp = PLAYER.Character and PLAYER.Character:FindFirstChild("HumanoidRootPart")
     if hrp then
         local bv = hrp:FindFirstChild("BodyVelocity")
         if bv then
-            bv:Destroy() -- Remove the BodyVelocity to restore default movement
+            bv:Destroy()
         end
     end
 end
@@ -305,7 +304,6 @@ local executor_used = tostring(identifyexecutor())
 
         for _, player in pairs(players_service:GetPlayers()) do
             if player ~= players_service.LocalPlayer and player.Character and player.Character:FindFirstChild(aimbot_aim_part) then
-                -- Skip teammate if teamcheck is enabled
                 if teamcheck_enabled and is_teammate(player) then
                     continue
                 end
@@ -936,7 +934,7 @@ local executor_used = tostring(identifyexecutor())
 
         local visuals = features.visuals
 
-        -- Visuals Tab Section
+        
         Tabs.visuals_tab:AddSection("ESP Settings")
 
         local enable_visuals_cb = Tabs.visuals_tab:AddToggle("EnableVisuals", {Title = "Enable ESP", Default = visuals.enabled})
@@ -950,7 +948,7 @@ local executor_used = tostring(identifyexecutor())
         end)
 
 
-        -- Render Distance Slider
+        
         local render_distance_slider = Tabs.visuals_tab:AddSlider("RenderDistance", {
             Title = "Render Distance",
             Default = visuals.renderDistance,
@@ -963,7 +961,7 @@ local executor_used = tostring(identifyexecutor())
         end)
 
 
-        -- Boxes Section
+        
         Tabs.visuals_tab:AddSection("Boxes Settings")
 
         local enable_boxes_cb = Tabs.visuals_tab:AddToggle("EnableBoxes", {Title = "Boxes", Default = visuals.boxes.enabled})
@@ -979,7 +977,7 @@ local executor_used = tostring(identifyexecutor())
             end
         })
 
-        -- Box Outline Toggle and Color Picker
+        
         local enable_box_outline_cb = Tabs.visuals_tab:AddToggle("EnableBoxOutline", {Title = "Box Outline", Default = visuals.boxes.outline.enabled})
         enable_box_outline_cb:OnChanged(function(value)
             visuals.boxes.outline.enabled = value
@@ -993,7 +991,6 @@ local executor_used = tostring(identifyexecutor())
             end
         })
 
-        -- Box Filled Toggle, Color Picker, and Transparency Slider
         local enable_box_filled_cb = Tabs.visuals_tab:AddToggle("EnableBoxFilled", {Title = "Box Filled", Default = visuals.boxes.filled.enabled})
         enable_box_filled_cb:OnChanged(function(value)
             visuals.boxes.filled.enabled = value
@@ -1019,7 +1016,7 @@ local executor_used = tostring(identifyexecutor())
         end)
 
 
-        -- Names Section
+        
         Tabs.visuals_tab:AddSection("Names Settings")
 
         local enable_names_cb = Tabs.visuals_tab:AddToggle("EnableNames", {Title = "Names", Default = visuals.names.enabled})
@@ -1035,7 +1032,7 @@ local executor_used = tostring(identifyexecutor())
             end
         })
 
-        -- Name Outline Toggle and Color Picker
+        
         local enable_name_outline_cb = Tabs.visuals_tab:AddToggle("EnableNameOutline", {Title = "Name Outline", Default = visuals.names.outline.enabled})
         enable_name_outline_cb:OnChanged(function(value)
             visuals.names.outline.enabled = value
@@ -1050,7 +1047,7 @@ local executor_used = tostring(identifyexecutor())
         })
 
 
-        -- Health Section
+        
         Tabs.visuals_tab:AddSection("Health Settings")
 
         local enable_health_cb = Tabs.visuals_tab:AddToggle("EnableHealth", {Title = "Health", Default = visuals.health.enabled})
@@ -1088,20 +1085,19 @@ local executor_used = tostring(identifyexecutor())
             end
         })
 
-        -- Health Text Toggle
+       
         local enable_health_text_cb = Tabs.visuals_tab:AddToggle("EnableHealthText", {Title = "Health Text", Default = visuals.health.text.enabled})
         enable_health_text_cb:OnChanged(function(value)
             visuals.health.text.enabled = value
         end)
 
-        -- Health Text Outline Toggle
+        
         local enable_health_text_outline_cb = Tabs.visuals_tab:AddToggle("EnableHealthTextOutline", {Title = "Health Text Outline", Default = visuals.health.text.outline.enabled})
         enable_health_text_outline_cb:OnChanged(function(value)
             visuals.health.text.outline.enabled = value
         end)
        
         --// Sky boxes \\--
-
         Tabs.visuals_tab:AddSection("Skyboxes | VERY BUGGY")
 
 
@@ -1252,65 +1248,6 @@ local executor_used = tostring(identifyexecutor())
             end
         end)
 
-
-
-        
-        
-        
-        
-        --[[
-
-        -- teleporting tab
-        local teleport_target_input =
-            Tabs.teleport_tab:AddInput(
-            "TargetNameInput",
-            {
-                Title = "Player Name",
-                Default = "",
-                Numeric = false,
-                Finished = true,
-                Callback = function(input_value)
-                    local input_value_lower = input_value
-                    local matching_player = nil
-
-                    for _, player in ipairs(game.Players:GetPlayers()) do
-                        local player_name = player.Name and player.Name or ""
-                        local player_display_name = player.DisplayName and player.DisplayName or ""
-
-                        if
-                            player_name:find(input_value_lower, 1, true) or
-                                player_display_name:find(input_value_lower, 1, true)
-                         then
-                            matching_player = player
-                            break
-                        end
-                    end
-
-                    selected_player = matching_player
-                end
-            }
-        )
-
-        Tabs.teleport_tab:AddButton(
-            {
-                Title = "Loop Teleport To Player",
-                Callback = function()
-                    if selected_player then
-                        loop_behind(selected_player)
-                    end
-                end
-            }
-        )
-
-        Tabs.teleport_tab:AddButton(
-            {
-                Title = "Stop Teleporting To Player",
-                Callback = function()
-                    teleporting = false
-                end
-            }
-        )
-]]
         
         local Players = game:GetService("Players")
         local LocalPlayer = Players.LocalPlayer
@@ -1512,36 +1449,6 @@ local executor_used = tostring(identifyexecutor())
             end
         })
 
-
-        --[[
-        local camera = game.Workspace.CurrentCamera
-
-        Tabs.player_tab:AddSlider("ResolutionXSlider", {
-            Title = "Set Resolution X",
-            Default = camera.ViewportSize.X,
-            Min = 100,
-            Max = 1920,
-            Rounding = 0,
-            Callback = function(value)
-                local currentCFrame = camera.CFrame
-                camera.CFrame = CFrame.new(value, currentCFrame.Position.Y, currentCFrame.Position.Z)
-            end
-        })
-        
-        Tabs.player_tab:AddSlider("ResolutionYSlider", {
-            Title = "Set Resolution Y",
-            Default = camera.ViewportSize.Y,
-            Min = 100,
-            Max = 1080,
-            Rounding = 0,
-            Callback = function(value)
-                local currentCFrame = camera.CFrame
-                camera.CFrame = CFrame.new(currentCFrame.Position.X, value, currentCFrame.Position.Z)
-            end
-        })
-        ]]
-        
-
     
         --// Device Spoofer Tab \\--
 
@@ -1577,7 +1484,7 @@ local executor_used = tostring(identifyexecutor())
             if state then
                 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Replication"):WaitForChild("Fighter"):WaitForChild("SetControls"):FireServer(DeviceSpoofer)
             else
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Replication"):WaitForChild("Fighter"):WaitForChild("SetControls"):FireServer("MouseKeyboard")  -- Change to your default device
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Replication"):WaitForChild("Fighter"):WaitForChild("SetControls"):FireServer("MouseKeyboard")  
             end
         end)
 
@@ -2303,7 +2210,7 @@ local executor_used = tostring(identifyexecutor())
                 end
             })
             
-            -- Slider for delay setting
+        
             ChatSection:AddSlider("Delay", {
                 Title = "Delay",
                 Default = ChatSpammerDelay.Value,
